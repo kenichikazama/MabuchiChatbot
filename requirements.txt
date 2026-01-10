@@ -1,0 +1,12 @@
+streamlit
+PyQt5 
+langchain 
+langchain-openai 
+pandas 
+openpyxl
+langchain-community
+unstructured
+langchain_google_genai
+langchain_core
+networkx
+msoffcrypto-tool
