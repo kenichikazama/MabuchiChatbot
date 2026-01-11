@@ -10,3 +10,4 @@ langchain_google_genai
 langchain_core
 networkx
 msoffcrypto-tool
+pandas

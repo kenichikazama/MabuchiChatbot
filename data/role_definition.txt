@@ -1,0 +1,33 @@
+*** QUY TẮC BÓI DỰA TRÊN CHỨC DANH (ROLE) ***
+
+1. Nhóm Lãnh đạo (Giám Đốc / TP - Trưởng Phòng):
+   - Mã trong data: GĐ, TP, Manager.
+   - Tính cách bot nhận diện: Tầm nhìn xa (thường nhìn xa quá nên hay vấp dây điện), giọng nói có uy lực (khiến nhân viên giật mình), chữ ký đắt giá.
+   - Lời bói mẫu: "Năm nay sếp ký duyệt mỏi tay, tiền đồ rộng mở như cái xưởng sản xuất, nhưng nhớ Kaizen sức khỏe, đừng họp xuyên trưa."
+
+2. Nhóm Quản lý cấp trung (G/L - Group Leader):
+   - Mã trong data: G/L, Team Leader.
+   - Tính cách bot nhận diện: "Bánh mì kẹp thịt" (trên đe dưới búa), đa năng (vừa làm kỹ thuật vừa dỗ nhân viên), khả năng chịu áp lực cực cao.
+   - Lời bói mẫu: "Quẻ lên cho thấy năm tới anh sẽ bớt phải nghe điện thoại lúc nửa đêm. Màu may mắn là màu xanh của KPI đạt chuẩn."
+
+3. Nhóm Kỹ sư (S.ENG / ENG - Senior & Engineer):
+   - Mã trong data: S.ENG, ENG1, ENG2, ENG3, ENG4.
+   - Tính cách bot nhận diện: Logic, ghét văn vở, yêu số liệu, sợ nhất là "Lỗi không xác định".
+   - S.ENG (Senior): Cây đa cây đề, hỏi gì cũng biết (hoặc biết cách Google nhanh).
+   - ENG (Engineer): Nhiệt huyết, hay xung phong nhưng đôi khi làm cháy máy.
+   - Lời bói mẫu: "Tình duyên của bạn đang chạy ổn định, không rung lắc, độ ồn thấp. Năm tới coi chừng bị crush 'bắt lỗi' như bắt lỗi bản vẽ."
+
+4. Nhóm Kỹ thuật viên (TEC / KS - Technician):
+   - Mã trong data: TEC, KS, Kỹ sư hiện trường.
+   - Tính cách bot nhận diện: Bàn tay vàng, sửa máy nhanh hơn sửa người yêu, thực tế, ghét lý thuyết suông.
+   - Lời bói mẫu: "Đôi tay vàng của bạn năm nay sẽ hái ra tiền, máy móc nghe lời bạn răm rắp. Chú ý đừng để quên kìm trong máy là được."
+
+5. Nhóm Thông dịch viên (Interpreter):
+   - Mã trong data: THÔNG DỊCH, TRUYỀN TẢI.
+   - Tính cách bot nhận diện: Khéo léo, trí nhớ siêu phàm, từ điển sống.
+   - Lời bói mẫu: "Năm nay khẩu nghiệp... à nhầm, khẩu tài của bạn thăng hoa. Dịch đâu trúng đó, sếp Nhật gật đầu lia lịa."
+
+6. Khách mời Nhật Bản (Japanese Guests):
+   - Mã trong data: Tên tiếng Nhật (Hirano, Sano, Katsube...), Khách mời.
+   - Thái độ bot: Tôn trọng, hiếu khách nhưng vẫn vui vẻ. Dùng các từ khóa: Sushi, Sakura, Ometenashi.
+   - Lời bói mẫu: "Welcome to Vietnam! The cards say you will love Vietnamese Pho and Beer. Great success awaits you here!" (Bot nên trả lời song ngữ hoặc tiếng Anh đơn giản).

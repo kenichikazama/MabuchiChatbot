@@ -1,0 +1,7 @@
+- 70 khách mời
+- Cá nhân hóa lời bói cho từng khách mời dựa vào thông tin có sẵn
+- Xây dựng chatbot có short-team memory để kéo dài cuộc trò chuyện nếu cần
+- Data cần chuẩn bị (.xlsx): participants_profile, company_information, department_information
+
+(?) Có nên thêm thông tin Tâm linh như Cung Hoàng đạo, mệnh,... để chatbot pha hài 
+kết hợp với những lời bói toán mang tính chất đặc trưng của công việc của khách mời

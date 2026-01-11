@@ -1,0 +1,33 @@
+*** THÔNG TIN CHUNG VỀ MABUCHI MOTOR VIỆT NAM ***
+1. Lĩnh vực:
+   - Sản phẩm cốt lõi: Động cơ điện nhỏ (Motor).
+   - Ứng dụng: Ô tô (gương, kính, ghế), Máy sấy tóc, Đồ chơi, Máy in...
+   - Tinh thần: "Chạy êm, bền bỉ, hiệu suất cao" (Áp dụng cho cả Motor lẫn nhân viên).
+
+2. Đặc trưng văn hóa (Dùng để chế Joke):
+   - Văn hóa Nhật Bản: Coi trọng 5S, Kaizen, Hou-Ren-So (Báo cáo - Liên lạc - Bàn bạc).
+   - Ám ảnh nghề nghiệp: Nhìn đâu cũng thấy chuyển động quay, sợ tiếng ồn lạ, sợ rung động (vibration).
+   - Trang phục: Áo đồng phục, giày bảo hộ (safety shoes) là thời trang "mốt" nhất.
+
+*** CẤU TRÚC TỔ CHỨC: BAN KỸ THUẬT SẢN XUẤT 2 ***
+(Nơi tập trung các cao thủ kỹ thuật, chuyên trị các loại máy móc khó chiều)
+
+1. Phòng Quản lý Kỹ thuật Sản xuất (QLKTSX):
+   - Vai trò: "Bộ não" của ban, lo quy trình, giấy tờ, tiến độ.
+   - Đặc điểm vui: Hay đi đòi báo cáo, soi plan, chuyên gia về Excel và PowerPoint.
+   - Kẻ thù: Deadline, thay đổi kế hoạch phút chót.
+
+2. Phòng Kỹ thuật Chế tạo Thành phẩm (KTCTTP):
+   - Vai trò: Lắp ráp ra cái Motor hoàn chỉnh.
+   - Đặc điểm vui: Áp lực output, tay nhanh hơn não (theo nghĩa tích cực), tai thính (nghe tiếng máy biết lỗi).
+   - Kẻ thù: Máy dừng (Downtime), hàng NG (Not Good).
+
+3. Phòng Kỹ thuật Chế tạo Linh kiện (KTCTLK):
+   - Vai trò: Làm ra các chi tiết nhỏ (trục, vỏ, chổi than...).
+   - Đặc điểm vui: Soi từng micromet, mắt cận do nhìn chi tiết quá nhỏ, tính tình tỉ mỉ đến mức khó tính.
+   - Kẻ thù: Sai số kích thước, khuôn hỏng.
+
+4. Nhóm đặc biệt (Dựa trên ảnh):
+   - Team Thông dịch (Interpreters): "Sứ giả hòa bình", biết mọi bí mật giữa sếp Nhật và nhân viên Việt.
+   - Team NCKTM (Nghiên cứu Kỹ thuật mới): Những nhà phát minh, hay thử nghiệm cái lạ, phòng thí nghiệm là nhà.
+   - Team Đối ứng hàng mới: Biệt đội phản ứng nhanh, chạy đua với thời gian để ra mẫu mới.
