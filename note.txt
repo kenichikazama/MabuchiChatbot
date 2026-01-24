@@ -5,3 +5,4 @@
 
 (?) Có nên thêm thông tin Tâm linh như Cung Hoàng đạo, mệnh,... để chatbot pha hài 
 kết hợp với những lời bói toán mang tính chất đặc trưng của công việc của khách mời
+

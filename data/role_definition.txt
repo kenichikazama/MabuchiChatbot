@@ -1,33 +1,33 @@
-*** QUY TẮC BÓI DỰA TRÊN CHỨC DANH (ROLE) ***
+*** THÔNG TIN CHUNG VỀ MABUCHI MOTOR VIỆT NAM ***
+1. Lĩnh vực:
+   - Sản phẩm cốt lõi: Motor điện 1 chiều cỡ nhỏ 
+   - Ứng dụng: Ô tô (gương, kính, ghế), Máy sấy tóc, Đồ chơi, Máy in...
+   - Tinh thần: "Chạy êm, bền bỉ, hiệu suất cao" (Áp dụng cho cả Motor lẫn nhân viên).
 
-1. Nhóm Lãnh đạo (Giám Đốc / TP - Trưởng Phòng):
-   - Mã trong data: GĐ, TP, Manager.
-   - Tính cách bot nhận diện: Tầm nhìn xa (thường nhìn xa quá nên hay vấp dây điện), giọng nói có uy lực (khiến nhân viên giật mình), chữ ký đắt giá.
-   - Lời bói mẫu: "Năm nay sếp ký duyệt mỏi tay, tiền đồ rộng mở như cái xưởng sản xuất, nhưng nhớ Kaizen sức khỏe, đừng họp xuyên trưa."
+2. Đặc trưng văn hóa (Dùng để chế Joke):
+   - Văn hóa Nhật Bản: Coi trọng 5S, Kaizen, Hou-Ren-So (Báo cáo - Liên lạc - Bàn bạc).
+   - Ám ảnh nghề nghiệp: Nhìn đâu cũng thấy chưa 5S, nhìn đâu cũng thấy máy chưa nhanh, sợ dị vật lẫn vào sản phẩm, sợ máy báo lỗi, sợ tiếng ồn
+   - Trang phục: Áo đồng phục, giày bảo hộ (safety shoes), nón là thời trang "mốt" nhất.
 
-2. Nhóm Quản lý cấp trung (G/L - Group Leader):
-   - Mã trong data: G/L, Team Leader.
-   - Tính cách bot nhận diện: "Bánh mì kẹp thịt" (trên đe dưới búa), đa năng (vừa làm kỹ thuật vừa dỗ nhân viên), khả năng chịu áp lực cực cao.
-   - Lời bói mẫu: "Quẻ lên cho thấy năm tới anh sẽ bớt phải nghe điện thoại lúc nửa đêm. Màu may mắn là màu xanh của KPI đạt chuẩn."
+*** CẤU TRÚC TỔ CHỨC: BAN KỸ THUẬT SẢN XUẤT 2 ***
+(Nơi tập trung các cao thủ kỹ thuật, xử lý máy móc hay hỏng hóc, xử lý khúc mắc của hiện trường sản xuất, nòng cốt liên lạc với công ty mẹ và các công ty chi nhánh khác, xử lý toàn bộ tài liệu chỉ thị sản xuất)
 
-3. Nhóm Kỹ sư (S.ENG / ENG - Senior & Engineer):
-   - Mã trong data: S.ENG, ENG1, ENG2, ENG3, ENG4.
-   - Tính cách bot nhận diện: Logic, ghét văn vở, yêu số liệu, sợ nhất là "Lỗi không xác định".
-   - S.ENG (Senior): Cây đa cây đề, hỏi gì cũng biết (hoặc biết cách Google nhanh).
-   - ENG (Engineer): Nhiệt huyết, hay xung phong nhưng đôi khi làm cháy máy.
-   - Lời bói mẫu: "Tình duyên của bạn đang chạy ổn định, không rung lắc, độ ồn thấp. Năm tới coi chừng bị crush 'bắt lỗi' như bắt lỗi bản vẽ."
+1. Phòng Quản lý Kỹ thuật Sản xuất (QLKTSX):
+   - Vai trò: "Bộ não" của ban, lo quy trình, giấy tờ, quản lý tiến độ, kỳ hạn.
+   - Đặc điểm vui: Hay đi đòi báo cáo, hối kỳ hạn, chức năng "combat" cực mạnh
+   - Kẻ thù: Kỳ hạn, tài liệu vừa sửa xong thì thay đổi.
 
-4. Nhóm Kỹ thuật viên (TEC / KS - Technician):
-   - Mã trong data: TEC, KS, Kỹ sư hiện trường.
-   - Tính cách bot nhận diện: Bàn tay vàng, sửa máy nhanh hơn sửa người yêu, thực tế, ghét lý thuyết suông.
-   - Lời bói mẫu: "Đôi tay vàng của bạn năm nay sẽ hái ra tiền, máy móc nghe lời bạn răm rắp. Chú ý đừng để quên kìm trong máy là được."
+2. Phòng Kỹ thuật Chế tạo Thành phẩm (KTCTTP):
+   - Vai trò: chỉ thị và giám sát để đảm bảo hoạt động sản xuất và chất lượng motor .
+   - Đặc điểm vui: hay lượn lờ ra line sản xuất, hay đi kiếm hỏi kỹ sư, hay đi tìm thông dịch, sợ Phòng Quản lý Kỹ thuật Sản xuất hối kỳ hạn
+   - Kẻ thù: cờ lêm (khiếu nại khách hàng), bất hợp cách (hàng lỗi, hàng dị thường), hàng ngoài quy cách, chỉ thị sai
 
-5. Nhóm Thông dịch viên (Interpreter):
-   - Mã trong data: THÔNG DỊCH, TRUYỀN TẢI.
-   - Tính cách bot nhận diện: Khéo léo, trí nhớ siêu phàm, từ điển sống.
-   - Lời bói mẫu: "Năm nay khẩu nghiệp... à nhầm, khẩu tài của bạn thăng hoa. Dịch đâu trúng đó, sếp Nhật gật đầu lia lịa."
+3. Phòng Kỹ thuật Chế tạo Linh kiện (KTCTLK):
+   - Vai trò: chỉ thị và giám sát để đảm bảo hoạt động sản xuất và chất lượng các linh kiện motor (vỏ lớn, vỏ nhỏ, vỏ nhựa, core, chổi, chấu,..)
+   - Đặc điểm vui: Hay ôm kính hiển vi soi hàng, mắt cận do nhìn chi tiết quá nhỏ, tính tình tỉ mỉ đến mức khó tính.
+   - Kẻ thù: Sai số kích thước, khuôn hỏng.
 
-6. Khách mời Nhật Bản (Japanese Guests):
-   - Mã trong data: Tên tiếng Nhật (Hirano, Sano, Katsube...), Khách mời.
-   - Thái độ bot: Tôn trọng, hiếu khách nhưng vẫn vui vẻ. Dùng các từ khóa: Sushi, Sakura, Ometenashi.
-   - Lời bói mẫu: "Welcome to Vietnam! The cards say you will love Vietnamese Pho and Beer. Great success awaits you here!" (Bot nên trả lời song ngữ hoặc tiếng Anh đơn giản).
+4. Nhóm đặc biệt (Dựa trên ảnh):
+   - Team Thông dịch (Interpreters): "Sứ giả hòa bình", biết mọi bí mật giữa sếp Nhật và nhân viên Việt, có mặt trong mọi mặt trận và mọi cuộc combat.
+   - Team NCKTM (Nghiên cứu Kỹ thuật mới): Những nhà nghiên cứu, hay thử nghiệm cái lạ, luôn chìm trong các thiết bị máy móc lạ lùng để thử nghiệm.
+   - Team Đối ứng hàng mới: Biệt đội phản ứng nhanh, quay đầu 4 phương 8 hướng để sản xuất hàng mẫu.

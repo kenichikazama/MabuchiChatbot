@@ -11,3 +11,23 @@ langchain_core
 networkx
 msoffcrypto-tool
 pandas
+
+# FastAPI Backend
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+pydantic
+python-multipart==0.0.6
+
+# Streamlit UI
+streamlit==1.30.0
+
+
+# SharePoint Integration
+Office365-REST-Python-Client==2.5.3
+
+# Environment & Utils
+python-dotenv==1.0.0
+requests==2.31.0
+
+# Deployment
+pyngrok==7.0.5
