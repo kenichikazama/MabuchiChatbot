@@ -218,20 +218,38 @@ random.seed()
 st.markdown(stars_html, unsafe_allow_html=True)
 
 
-# Add zodiac wheel
-import base64
-def render_svg(svg_file, width=50, height=50):
-    with open(svg_file, "r") as f:
-        lines = f.readlines()
-    svg = "".join(lines)
-    b64 = base64.b64encode(svg.encode("utf-8")).decode("utf-8")
-    html = f'<img src="data:image/svg+xml;base64,{b64}" width="{width}" height="{height}"/>'
-    return html
+# Add zodiac wheel with emoji symbols (cross-platform compatible)
+from pathlib import Path
 
-zodiac_symbols = ['♈', '♉', '♊', '♋', '♌', '♍', '♎', '♏', '♐', '♑', '♒', '♓']
-zodiac_svg_path = r".\data\images\zodiac_signs"
-zodiac_svg_files = [f"{zodiac_svg_path}\\{file}" for file in ["1.svg", "2.svg", "3.svg", "4.svg", "5.svg", "6.svg", "7.svg", "8.svg", "9.svg", "10.svg", "11.svg", "12.svg"]]
-zodiac_html = [render_svg(file, width=200, height=200) for file in zodiac_svg_files]
+def render_svg(svg_file, width=50, height=50):
+    """Render SVG file to base64 HTML, returns None if file not found"""
+    try:
+        with open(svg_file, "r", encoding="utf-8") as f:
+            lines = f.readlines()
+        svg = "".join(lines)
+        b64 = base64.b64encode(svg.encode("utf-8")).decode("utf-8")
+        html = f'<img src="data:image/svg+xml;base64,{b64}" width="{width}" height="{height}"/>'
+        return html
+    except FileNotFoundError:
+        return None
+
+# Try to load SVG files, fallback to emoji if not found
+zodiac_emoji = ['♈', '♉', '♊', '♋', '♌', '♍', '♎', '♏', '♐', '♑', '♒', '♓']
+
+# Get the directory where this script is located
+script_dir = Path(__file__).parent.resolve()
+zodiac_svg_path = script_dir.parent / "data" / "images" / "zodiac_signs"
+
+zodiac_html = []
+for i in range(1, 13):
+    svg_file = zodiac_svg_path / f"{i}.svg"
+    rendered = render_svg(svg_file, width=200, height=200)
+    if rendered:
+        zodiac_html.append(rendered)
+    else:
+        # Fallback to emoji if SVG not found
+        zodiac_html.append(f'<span style="font-size: 80px;">{zodiac_emoji[i-1]}</span>')
+
 wheel_html = '<div class="zodiac-wheel"><div class="zodiac-wheel-inner">'
 for i, symbol in enumerate(zodiac_html):
     angle = i * 30
