@@ -1,0 +1,19 @@
+# Streamlit Cloud Requirements
+# Note: Remove PyQt5 as it's not supported on cloud
+
+streamlit>=1.30.0
+pandas
+openpyxl
+
+# Language Models and NLP
+langchain
+langchain-community
+langchain_google_genai
+langchain_core
+google-genai
+
+# SharePoint Integration
+Office365-REST-Python-Client>=2.5.3
+
+# Utils
+requests>=2.31.0

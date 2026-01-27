@@ -1,7 +1,8 @@
 """
-Year-End Party Chatbot with Zodiac Theme - Enhanced UI Version
+Year-End Party Chatbot - Streamlit Cloud Version
+This version is optimized for Streamlit Cloud deployment.
+Uses st.secrets instead of .env file.
 """
-from urllib import response
 import streamlit as st
 import pandas as pd
 pd.set_option('display.max_columns', None)
@@ -15,14 +16,12 @@ from langchain_core.prompts import ChatPromptTemplate
 from office365.sharepoint.client_context import ClientContext
 from office365.runtime.auth.user_credential import UserCredential
 from office365.sharepoint.files.file import File
-from dotenv import load_dotenv
 import os
 import time
 import random
 import html
 import re
-
-load_dotenv()
+import base64
 
 # ==================== Page Config ====================
 st.set_page_config(
@@ -110,11 +109,6 @@ st.markdown("""
         50% { opacity: 1; transform: scale(1.2); }
     }
     
-    @keyframes shimmer {
-        0%, 100% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-    }
-    
     @keyframes spin {
         from { transform: rotate(0deg); }
         to { transform: rotate(360deg); }
@@ -167,45 +161,31 @@ st.markdown("""
         pointer-events: none;
         opacity: 0.5;
         z-index: 0;
-
-        /* Animation di chuyển vòng quanh màn hình */
         animation: float-around 60s linear infinite;
     }
 
-    /* Nội dung bánh xe xoay tại chỗ */
     .zodiac-wheel-inner {
         width: 1000px;
         height: 1000px;
-        animation: spin 60s linear infinite; /* xoay lâu hơn để không quá chóng mặt */
+        animation: spin 60s linear infinite;
         position: relative;
     }
 
-    /* Biểu tượng cung hoàng đạo */
     .zodiac-symbol {
         position: absolute;
         left: 50%;
         top: 50%;
     }
 
-    /* Xoay bánh xe tại chỗ */
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
-
-    /* Di chuyển vòng quanh màn hình */
     @keyframes float-around {
         0% { transform: translate(-50%, -50%) translateX(0px) translateY(0px); }
-        25% { transform: translate(-50%, -50%) translateX(0px) translateY(-0px); }
-        50% { transform: translate(-50%, -50%) translateX(0px) translateY(-0px); }
-        75% { transform: translate(-50%, -50%) translateX(-0px) translateY(-0px); }
         100% { transform: translate(-50%, -50%) translateX(0px) translateY(0px); }
     }
 </style>
 """, unsafe_allow_html=True)
 
 # ==================== Background Elements ====================
-# Add stars
+# Add stars with fixed seed
 random.seed(42)
 stars_html = '<div class="stars-bg">'
 for i in range(50):
@@ -218,58 +198,36 @@ stars_html += '</div>'
 random.seed()
 st.markdown(stars_html, unsafe_allow_html=True)
 
-with open(r"D:\KenIChi\Chatbot\data\images\zodiac_signs\1.svg", "r", encoding="utf-8") as f:
-    leo_svg = f.read()
-
-# Add zodiac wheel
-import base64
-def render_svg(svg_file, width=50, height=50):
-    with open(svg_file, "r") as f:
-        lines = f.readlines()
-    svg = "".join(lines)
-    b64 = base64.b64encode(svg.encode("utf-8")).decode("utf-8")
-    html = f'<img src="data:image/svg+xml;base64,{b64}" width="{width}" height="{height}"/>'
-    return html
-
-zodiac_symbols = ['♈', '♉', '♊', '♋', '♌', '♍', '♎', '♏', '♐', '♑', '♒', '♓']
-zodiac_svg_path = r"D:\KenIChi\Chatbot\data\images\zodiac_signs"
-zodiac_svg_files = [f"{zodiac_svg_path}\\{file}" for file in ["1.svg", "2.svg", "3.svg", "4.svg", "5.svg", "6.svg", "7.svg", "8.svg", "9.svg", "10.svg", "11.svg", "12.svg"]]
-zodiac_html = [render_svg(file, width=200, height=200) for file in zodiac_svg_files]
-wheel_html = '<div class="zodiac-wheel"><div class="zodiac-wheel-inner">'
-for i, symbol in enumerate(zodiac_html):
-    angle = i * 30
-    wheel_html += f'''<div class="zodiac-symbol" style="transform: translate(-50%, -50%) rotate({angle}deg) translateY(-450px) rotate(-{angle}deg);">
-        {symbol}
-    </div>'''
-wheel_html += '</div></div>'
-st.markdown(wheel_html, unsafe_allow_html=True)
+# ==================== Helper Functions ====================
+def get_secret(key, default=None):
+    """Get secret from Streamlit secrets or environment variable"""
+    try:
+        return st.secrets[key]
+    except:
+        return os.getenv(key, default)
 
 # ==================== Functions ====================
 @st.cache_resource(show_spinner=False)
 def get_ai_model():
-    """Initialize AI modelt (cached)"""
-    client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+    """Initialize AI model (cached)"""
     model = ChatGoogleGenerativeAI(
-        model=os.getenv("AI_MODEL"),
-        api_key=os.getenv("GEMINI_API_KEY"),
+        model=get_secret("AI_MODEL", "gemini-2.0-flash"),
+        api_key=get_secret("GEMINI_API_KEY"),
         temperature=1.0,
         max_output_tokens=2000,
-        thinking_level="minimal",
-        thinking_budget=0,
-        include_thoughts=False,
     )
     return model
 
 @st.cache_resource(show_spinner=False)
 def connect_to_sharepoint(refresh_key=0):
     """Connect to SharePoint and download Excel file"""
-    site_url = os.getenv(
+    site_url = get_secret(
         "SHAREPOINT_SITE_URL",
         "https://mabmotor-my.sharepoint.com/personal/vnm13649_mabuchi-motor_com"
     )
-    username = os.getenv("MICROSOFT_ACCOUNT")
-    password = os.getenv("MICROSOFT_PASSWORD")
-    file_relative_url = os.getenv(
+    username = get_secret("MICROSOFT_ACCOUNT")
+    password = get_secret("MICROSOFT_PASSWORD")
+    file_relative_url = get_secret(
         "SHAREPOINT_FILE_URL",
         "/personal/vnm13649_mabuchi-motor_com/Documents/Microsoft Teams Chat Files/guest_information 1.xlsx"
     )
@@ -289,9 +247,6 @@ def connect_to_sharepoint(refresh_key=0):
     company_context = pd.read_excel(xls, "company_context")
     role_definition = pd.read_excel(xls, "role_definition")
     
-    print("REFRESH KEY:", refresh_key)
-    print("DOWNLOAD AT:", time.time())
-    print("FILE SIZE:", len(raw))
     return df, company_context['text'][0], role_definition['text'][0]
 
 @st.cache_resource(show_spinner=False)
@@ -301,10 +256,9 @@ def get_participant_by_id(user_id, use_sharepoint=True):
         fix_response = None
         text_to_inject = None
         if use_sharepoint:
-            df, company_context, role_definition = connect_to_sharepoint(st.session_state.refresh)
+            df, company_context, role_definition = connect_to_sharepoint(st.session_state.get('refresh', 0))
         else:
-            df = pd.read_excel("data/guest_information.xlsx", sheet_name="participants_profile")
-            company_context, role_definition = load_context_files()
+            return None
             
         if isinstance(user_id, int) or ((isinstance(user_id, str) and user_id.isdigit())):      
             result = df[df["id"] == int(user_id)]
@@ -334,24 +288,6 @@ def get_participant_by_id(user_id, use_sharepoint=True):
     except Exception as e:
         st.error(f"Lỗi khi lấy dữ liệu: {str(e)}")
         return None
-
-@st.cache_data
-@st.cache_resource(show_spinner=False)
-def load_context_files():
-    """Load company context and role definitions"""
-    try:         
-        with open("data\\company_context.txt", "r", encoding="utf-8") as f:
-            company_context = f.read()
-    except:
-        company_context = ""
-    
-    try:
-        with open("data\\role_definition.txt", "r", encoding="utf-8") as f:
-            role_definition = f.read()
-    except:
-        role_definition = ""
-    
-    return company_context, role_definition
 
 def generate_response(user_data, model, company_context, role_definition, text_to_inject=None):
     if user_data['nationality'] == 'JP':
@@ -434,16 +370,12 @@ def main():
     </div>
     """, unsafe_allow_html=True)
     
-
-    
     # Input section
     st.markdown("<h3 style='color: #fde047; text-align: center; margin: 30px 0 20px 0;'>🌙 Enter your Full Name or Employee ID ✨</h3>", unsafe_allow_html=True)
     
     with st.form(key="user_input_form"):
         col1, col2 = st.columns([4, 1])
         with col1:
-            # st.write("")
-            # st.write("")
             user_id = st.text_input(
                 "",
                 placeholder="E.g.: 45678 or Maria Ozawa, Tokuda Shigeo",
@@ -452,13 +384,12 @@ def main():
             )
         
         with col2:
-            # st.write("")
-            # st.write("")
             submit = st.form_submit_button("🪄 Go for it!")
     
     # Reload button
     if st.button("🔄 Reload Excel from SharePoint"):
         st.cache_data.clear()
+        st.cache_resource.clear()
         st.session_state.refresh = st.session_state.get('refresh', 0) + 1
         with st.spinner("⏳ Loading data..."):
             time.sleep(2)
@@ -479,10 +410,9 @@ def main():
                         response = fixed_response
                     else:
                         ai_response = generate_response(user_data, model, company_context, role_definition, text_to_inject)
-                        print(ai_response)
-                        response = ai_response.content[0]['text']
+                        response = ai_response.content
                     
-                    # Display result - Header section
+                    # Display result
                     team_html = f'''<p style='
                                         color: #64748b; 
                                         margin-bottom: 24px; 

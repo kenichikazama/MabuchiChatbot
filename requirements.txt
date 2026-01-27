@@ -4,6 +4,8 @@ langchain
 langchain-openai 
 pandas 
 openpyxl
+
+# Language Models and NLP
 langchain-community
 unstructured
 langchain_google_genai
@@ -11,6 +13,7 @@ langchain_core
 networkx
 msoffcrypto-tool
 pandas
+google_genai
 
 # FastAPI Backend
 fastapi==0.109.0

@@ -29,7 +29,7 @@ def main():
     # Start Streamlit
     print("\n🚀 Starting Streamlit...")
     streamlit_process = subprocess.Popen(
-        [sys.executable, "-m", "streamlit", "run", "app.py"],
+        [sys.executable, "-m", "streamlit", "run", "app_hybrid.py"],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE
     )
