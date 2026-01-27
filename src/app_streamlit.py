@@ -217,8 +217,6 @@ stars_html += '</div>'
 random.seed()
 st.markdown(stars_html, unsafe_allow_html=True)
 
-with open(r"D:\KenIChi\Chatbot\data\images\zodiac_signs\1.svg", "r", encoding="utf-8") as f:
-    leo_svg = f.read()
 
 # Add zodiac wheel
 import base64
