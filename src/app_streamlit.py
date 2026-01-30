@@ -1,3 +1,4 @@
+# (.venv) D:\KenIChi\Chatbot>streamlit run src\app_streamlit.py
 """
 Year-End Party Chatbot - Streamlit Cloud Version
 This version is optimized for Streamlit Cloud deployment.
