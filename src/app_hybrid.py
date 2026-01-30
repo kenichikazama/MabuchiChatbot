@@ -391,6 +391,7 @@ Hãy trả lời bằng {language}."""
     ])
     
     response = model.invoke(template.format_messages())
+    print(response)
     return response
 
 # ==================== Main UI ====================

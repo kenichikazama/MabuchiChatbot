@@ -29,7 +29,7 @@ def main():
     # Start Streamlit
     print("\n🚀 Starting Streamlit...")
     streamlit_process = subprocess.Popen(
-        [sys.executable, "-m", "streamlit", "run", "app_hybrid.py"],
+        [sys.executable, "-m", "streamlit", "run", "app_streamlit.py"],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE
     )
@@ -57,10 +57,10 @@ def main():
         except Exception as e:
             print(f"\n⚠ Ngrok error: {e}")
             print("Running on local: http://localhost:8501")
-            webbrowser.open("http://localhost:8501")
+            # webbrowser.open("http://localhost:8501")
     else:
         print("\n🌐 Running locally: http://localhost:8501")
-        webbrowser.open("http://localhost:8501")
+        # webbrowser.open("http://localhost:8501")
     
     try:
         print("\n⏳ Press Ctrl+C to stop...\n")

@@ -22,6 +22,7 @@ import random
 import html
 import re
 import base64
+import streamlit.components.v1 as components
 
 # ==================== Page Config ====================
 st.set_page_config(
@@ -57,7 +58,19 @@ st.markdown("""
         color: #1e40af !important;
         font-size: 18px !important;
         padding: 16px !important;
+        min-height: 57px !important;
+        height: 57px !important;
         backdrop-filter: blur(10px);
+        box-sizing: border-box !important;
+    }
+    
+    /* Make input container same height as button */
+    .stTextInput > div {
+        height: 57px !important;
+    }
+    
+    .stTextInput > div > div {
+        height: 57px !important;
     }
     
     .stTextInput > div > div > input::placeholder {
@@ -70,7 +83,8 @@ st.markdown("""
     }
     
     /* Custom button */
-    .stButton > button {
+    .stButton > button,
+    .stFormSubmitButton > button {
         width: 100%;
         background: linear-gradient(135deg, #fde047 0%, #fef3c7 50%, #fde68a 100%) !important;
         color: #0f2027 !important;
@@ -83,7 +97,8 @@ st.markdown("""
         transition: all 0.3s ease !important;
     }
     
-    .stButton > button:hover {
+    .stButton > button:hover,
+    .stFormSubmitButton > button:hover {
         transform: scale(1.05) !important;
         box-shadow: 0 6px 12px rgba(253, 224, 71, 0.8) !important;
     }
@@ -200,13 +215,132 @@ st.markdown("""
         75% { transform: translate(-50%, -50%) translateX(-0px) translateY(-0px); }
         100% { transform: translate(-50%, -50%) translateX(0px) translateY(0px); }
     }
+    
+    /* ===== LOADING STATE EFFECTS ===== */
+    
+    /* Fast spin animation for loading */
+    @keyframes spin-fast {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    
+    /* Flash/pulse animation */
+    @keyframes flash-pulse {
+        0%, 100% { opacity: 1; }
+        25% { opacity: 0.5; }
+        50% { opacity: 1; }
+        75% { opacity: 0.5; }
+    }
+    
+    /* Rainbow Glow animation for zodiac symbols */
+    @keyframes rainbow-glow {
+        0% { filter: drop-shadow(0 0 15px #ff6b6b); }
+        20% { filter: drop-shadow(0 0 18px #ffd93d); }
+        40% { filter: drop-shadow(0 0 20px #6bcb77); }
+        60% { filter: drop-shadow(0 0 18px #4d96ff); }
+        80% { filter: drop-shadow(0 0 15px #9b59b6); }
+        100% { filter: drop-shadow(0 0 15px #ff6b6b); }
+    }
+    
+    /* Zoom out animation for zodiac wheel */
+    @keyframes wheel-zoom {
+        0% { 
+            transform: translate(-50%, -50%) scale(1); 
+            opacity: 0.5; 
+        }
+        50% { 
+            transform: translate(-50%, -50%) scale(1.15); 
+            opacity: 0.9; 
+        }
+        100% { 
+            transform: translate(-50%, -50%) scale(1); 
+            opacity: 0.5; 
+        }
+    }
+    
+    /* Loading state - wheel zoom effect */
+    .zodiac-wheel.loading {
+        animation: wheel-zoom 3s ease-in-out infinite !important;
+    }
+    
+    /* Loading state - fast wheel spin */
+    .zodiac-wheel.loading .zodiac-wheel-inner {
+        animation: spin-fast 10s linear infinite !important;
+    }
+    
+    /* Loading state - rainbow glowing symbols */
+    .zodiac-wheel.loading .zodiac-symbol {
+        animation: rainbow-glow 2s ease-in-out infinite !important;
+    }
+    
+    /* Loading state - intense star twinkle */
+    .stars-bg.loading .star {
+        animation: flash-pulse 1s ease-in-out infinite !important;
+        background: #fde047 !important;
+    }
+
 </style>
 """, unsafe_allow_html=True)
 
+# JavaScript to trigger loading effects on form submit (using components.html for JS execution)
+components.html("""
+<script>
+    // Access parent document (Streamlit main page)
+    const parent = window.parent.document;
+    
+    // Function to start loading animation
+    function startLoadingAnimation() {
+        const zodiacWheel = parent.querySelector('.zodiac-wheel');
+        const starsBg = parent.querySelector('.stars-bg');
+        
+        if (zodiacWheel) zodiacWheel.classList.add('loading');
+        if (starsBg) starsBg.classList.add('loading');
+        
+        
+    }
+    
+    // Function to stop loading animation
+    function stopLoadingAnimation() {
+        const zodiacWheel = parent.querySelector('.zodiac-wheel');
+        const starsBg = parent.querySelector('.stars-bg');
+        
+        if (zodiacWheel) zodiacWheel.classList.remove('loading');
+        if (starsBg) starsBg.classList.remove('loading');
+        if (overlay) overlay.remove();
+    }
+    
+    // Watch for form submission button clicks
+    parent.addEventListener('click', function(e) {
+        const button = e.target.closest('button');
+        if (button && (button.textContent.includes('Go for it') || button.textContent.includes('🪄'))) {
+            startLoadingAnimation();
+            // Stop after 30 seconds max (in case something fails)
+            setTimeout(stopLoadingAnimation, 30000);
+        }
+    });
+    
+    // Stop animation when result container appears
+    const observer = new MutationObserver(function(mutations) {
+        const resultContainer = parent.querySelector('.result-container');
+        if (resultContainer) {
+            stopLoadingAnimation();
+        }
+    });
+    
+    // Start observing
+    observer.observe(parent.body, { childList: true, subtree: true });
+</script>
+""", height=0)
+
 # ==================== Background Elements ====================
-# Add stars
+# Initialize loading state
+if 'is_loading' not in st.session_state:
+    st.session_state.is_loading = False
+
+# Add stars with loading class if in loading state
+loading_class = "loading" if st.session_state.is_loading else ""
 random.seed(42)
-stars_html = '<div class="stars-bg">'
+stars_html = f'<div class="stars-bg {loading_class}">'
 for i in range(50):
     x = random.randint(0, 100)
     y = random.randint(0, 100)
@@ -250,7 +384,8 @@ for i in range(1, 13):
         # Fallback to emoji if SVG not found
         zodiac_html.append(f'<span style="font-size: 80px;">{zodiac_emoji[i-1]}</span>')
 
-wheel_html = '<div class="zodiac-wheel"><div class="zodiac-wheel-inner">'
+# Build zodiac wheel with loading class if in loading state
+wheel_html = f'<div class="zodiac-wheel {loading_class}"><div class="zodiac-wheel-inner">'
 for i, symbol in enumerate(zodiac_html):
     angle = i * 30
     wheel_html += f'''<div class="zodiac-symbol" style="transform: translate(-50%, -50%) rotate({angle}deg) translateY(-450px) rotate(-{angle}deg);">
@@ -275,10 +410,11 @@ def get_ai_model():
         api_key=get_secret("GEMINI_API_KEY"),
         temperature=1.0,
         max_output_tokens=2000,
-        thinking_level="minimal",
-        thinking_budget=0,
-        include_thoughts=False,
+        # thinking_level="minimal",
+        # thinking_budget=0,
+        # include_thoughts=False,
     )
+    # print(model)
     return model
 
 @st.cache_resource(show_spinner=False)
@@ -319,11 +455,16 @@ def get_participant_by_id(user_id, use_sharepoint=True):
         fix_response = None
         text_to_inject = None
         if use_sharepoint:
+            print("use sharepoint mode")
             df, company_context, role_definition = connect_to_sharepoint(st.session_state.refresh)
         else:
+            print("use local mode")
             df = pd.read_excel("data/guest_information.xlsx", sheet_name="participants_profile")
-            company_context, role_definition = load_context_files()
-            
+            company_context = pd.read_excel("data/guest_information.xlsx", sheet_name="company_context")
+            role_definition = pd.read_excel("data/guest_information.xlsx", sheet_name="role_definition")
+            company_context = company_context['text'][0]
+            role_definition = role_definition['text'][0]
+
         if isinstance(user_id, int) or ((isinstance(user_id, str) and user_id.isdigit())):      
             result = df[df["id"] == int(user_id)]
         elif isinstance(user_id, str):
@@ -371,7 +512,7 @@ def load_context_files():
     
     return company_context, role_definition
 
-def generate_response(user_data, model, company_context, role_definition, text_to_inject=None):
+def generate_response(user_data, model, company_context, role_definition, text_to_inject=None, fortune_number=None):
     if user_data['nationality'] == 'JP':
         language = "Tiếng Anh"
         user_prompt = "Vì đây là người Nhật, hãy trả lời bằng tiếng Anh một cách tự nhiên và thân thiện dựa vào thông tin của họ:"
@@ -383,6 +524,12 @@ def generate_response(user_data, model, company_context, role_definition, text_t
         text_to_inject = f"\nHãy đảm bảo câu bói của bạn có chứa thông tin sau đây: {text_to_inject}"
     else:
         text_to_inject = ""
+    
+    # Build fortune prompt based on whether fortune_number is provided
+    if fortune_number and fortune_number.strip():
+        fortune_prompt = f"\nNgười chơi này vừa gieo quẻ trúng số {fortune_number}, hãy kết hợp với thông tin được cho trước, Hãy tạo một câu bói vui nhộn và may mắn cho người này!"
+    else:
+        fortune_prompt = "\nHãy tạo một câu bói vui nhộn và may mắn cho người này!"
         
     system_prompt = f"""Bạn là một chatbot bói toán hài hước, thông minh, nói chuyện lưu loát dùng để giải trí trong buổi tiệc tất niên của công ty.
 Bạn sẽ dựa vào thông tin cá nhân của người dùng để đưa ra câu bói ngắn gọn, dễ hiểu, hài hước và thú vị.
@@ -404,11 +551,12 @@ Hãy trả lời bằng {language}."""
             {"type": "text", "text": user_prompt},
             {"type": "text", "text": json.dumps(user_data, ensure_ascii=False)},
             {"type": "text", "text": text_to_inject},
-            {"type": "text", "text": "\nHãy tạo một câu bói vui nhộn và may mắn cho người này!"}
+            {"type": "text", "text": fortune_prompt}
         ])
     ])
-    
+    print(template.format_messages())
     response = model.invoke(template.format_messages())
+    print(response)
     return response
 
 # ==================== Main UI ====================
@@ -458,20 +606,24 @@ def main():
     st.markdown("<h3 style='color: #fde047; text-align: center; margin: 30px 0 20px 0;'>🌙 Enter your Full Name or Employee ID ✨</h3>", unsafe_allow_html=True)
     
     with st.form(key="user_input_form"):
-        col1, col2 = st.columns([4, 1])
+        col1, col2, col3 = st.columns([3, 1, 1])
         with col1:
-            # st.write("")
-            # st.write("")
             user_id = st.text_input(
-                "",
+                "Employee ID or Name",
                 placeholder="E.g.: 45678 or Maria Ozawa, Tokuda Shigeo",
                 key="user_id_input",
                 label_visibility="collapsed",
             )
         
         with col2:
-            # st.write("")
-            # st.write("")
+            fortune_number = st.text_input(
+                "Fortune Number",
+                placeholder="Số quẻ",
+                key="fortune_number_input",
+                label_visibility="collapsed",
+            )
+        
+        with col3:
             submit = st.form_submit_button("🪄 Go for it!")
     
     # Reload button
@@ -483,23 +635,44 @@ def main():
             time.sleep(2)
         st.success("✅ Done!")
     
-    # Process
+    # Process - check if we're continuing from a loading state or starting new
+    processing = False
     if submit and user_id:
+        # Save form values and set loading state
+        st.session_state.pending_user_id = user_id
+        st.session_state.pending_fortune_number = fortune_number
+        st.session_state.is_loading = True
+        processing = True
+    elif st.session_state.is_loading and st.session_state.get('pending_user_id'):
+        # Continue processing from loading state
+        user_id = st.session_state.pending_user_id
+        fortune_number = st.session_state.get('pending_fortune_number', '')
+        processing = True
+    
+    if processing:
         with st.spinner("🔮 Reading your office destiny..."):
+            start_time = time.time()
             result = get_participant_by_id(user_id, True)
             
             if result:
+                # print(result)
                 user_data, company_context, role_definition, fixed_response, text_to_inject = result
                 
                 if user_data:
+                    start_get_model_time = time.time()
                     model = get_ai_model()
+                    print("Get ai model time in ms:", (time.time() - start_get_model_time) * 1000)
                     
-                    if fixed_response is not None:
+                    if fixed_response is not None and fixed_response.strip() != "":
                         response = fixed_response
                     else:
-                        ai_response = generate_response(user_data, model, company_context, role_definition, text_to_inject)
+                        ai_response = generate_response(user_data, model, company_context, role_definition, text_to_inject, fortune_number)
                         response = ai_response.content[0]['text']
                     
+                    print("=== RESPONSE ===")
+                    print(response)
+                    print("================")
+
                     # Display result - Header section
                     team_html = f'''<p style='
                                         color: #64748b; 
@@ -547,6 +720,12 @@ def main():
                             </div>
                         </div>
                     """, unsafe_allow_html=True)
+                    print("Total time in ms:", (time.time() - start_time) * 1000)
+                    
+                    # Stop loading animation and clear pending values
+                    st.session_state.is_loading = False
+                    st.session_state.pending_user_id = None
+                    st.session_state.pending_fortune_number = None
                     
                     if st.button("🔄 Fortune-tell for someone else"):
                         st.rerun()
