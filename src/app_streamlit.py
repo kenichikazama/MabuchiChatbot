@@ -1,4 +1,6 @@
 # (.venv) D:\KenIChi\Chatbot>streamlit run src\app_streamlit.py
+# Bói trước 1 người
+# bấm RELOAD sau khi bói xong
 """
 Year-End Party Chatbot - Streamlit Cloud Version
 This version is optimized for Streamlit Cloud deployment.
@@ -628,13 +630,13 @@ def main():
             submit = st.form_submit_button("🪄 Go for it!")
     
     # Reload button
-    if st.button("🔄 Reload Excel from SharePoint"):
-        st.cache_data.clear()
-        st.cache_resource.clear()
-        st.session_state.refresh = st.session_state.get('refresh', 0) + 1
-        with st.spinner("⏳ Loading data..."):
-            time.sleep(2)
-        st.success("✅ Done!")
+    # if st.button("🔄 Reload Excel from SharePoint"):
+    #     st.cache_data.clear()
+    #     st.cache_resource.clear()
+    #     st.session_state.refresh = st.session_state.get('refresh', 0) + 1
+    #     with st.spinner("⏳ Loading data..."):
+    #         time.sleep(2)
+    #     st.success("✅ Done!")
     
     # Process - check if we're continuing from a loading state or starting new
     processing = False
