@@ -559,7 +559,7 @@ Hãy trả lời bằng {language}."""
     ])
     print(template.format_messages())
     response = model.invoke(template.format_messages())
-    print(response)
+    # print(response)
     return response
 
 # ==================== Main UI ====================
@@ -613,7 +613,7 @@ def main():
         with col1:
             user_id = st.text_input(
                 "Employee ID or Name",
-                placeholder="E.g.: 45678 or Maria Ozawa, Tokuda Shigeo",
+                placeholder="E.g.: 45678 or Nobita, Shizuka",
                 key="user_id_input",
                 label_visibility="collapsed",
             )
@@ -655,7 +655,7 @@ def main():
     if processing:
         with st.spinner("🔮 Reading your office destiny..."):
             start_time = time.time()
-            result = get_participant_by_id(user_id, True)
+            result = get_participant_by_id(user_id, False)
             
             if result:
                 # print(result)
@@ -739,7 +739,8 @@ def main():
     # Footer
     st.markdown("""
     <div style='text-align: center; color: #22d3ee; margin-top: 48px; padding: 24px;'>
-        <p style='margin-bottom: 8px;'>💡 <strong>Note:</strong> Please enter your full name with accents or your employee ID</p>
+        <p style='margin-bottom: 8px;'>💡 <strong>Kindly note: </strong> All predictions are just for fun. 😜 </p>
+        <p style='margin-bottom: 8px;'> 🚨 <strong>FYI: </strong>If something goes terribly wrong, 🫵 blame Ms. Vy, Ms. Yến, or Ms. Hương – not Ken! 🙃</p>
         <p>Made with ❤️ for Year-End Party 2025</p>
     </div>
     """, unsafe_allow_html=True)
