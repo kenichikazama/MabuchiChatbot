@@ -339,6 +339,8 @@ components.html("""
 # Initialize loading state
 if 'is_loading' not in st.session_state:
     st.session_state.is_loading = False
+if 'result_showing' not in st.session_state:
+    st.session_state.result_showing = False
 
 # Add stars with loading class if in loading state
 loading_class = "loading" if st.session_state.is_loading else ""
@@ -629,42 +631,18 @@ def main():
         with col3:
             submit = st.form_submit_button("🪄 Go for it!")
     
-    # Reload button
-    # if st.button("🔄 Reload Excel from SharePoint"):
-    #     st.cache_data.clear()
-    #     st.cache_resource.clear()
-    #     st.session_state.refresh = st.session_state.get('refresh', 0) + 1
-    #     with st.spinner("⏳ Loading data..."):
-    #         time.sleep(2)
-    #     st.success("✅ Done!")
-    
-    # Process - check if we're continuing from a loading state or starting new
-    processing = False
-    if submit and user_id:
-        # Save form values and set loading state
-        st.session_state.pending_user_id = user_id
-        st.session_state.pending_fortune_number = fortune_number
+    # Process - only if result is NOT already showing
+    if submit and user_id and not st.session_state.result_showing:
         st.session_state.is_loading = True
-        processing = True
-    elif st.session_state.is_loading and st.session_state.get('pending_user_id'):
-        # Continue processing from loading state
-        user_id = st.session_state.pending_user_id
-        fortune_number = st.session_state.get('pending_fortune_number', '')
-        processing = True
-    
-    if processing:
         with st.spinner("🔮 Reading your office destiny..."):
             start_time = time.time()
             result = get_participant_by_id(user_id, True)
             
             if result:
-                # print(result)
                 user_data, company_context, role_definition, fixed_response, text_to_inject = result
                 
                 if user_data:
-                    start_get_model_time = time.time()
                     model = get_ai_model()
-                    print("Get ai model time in ms:", (time.time() - start_get_model_time) * 1000)
                     
                     if fixed_response is not None and fixed_response.strip() != "":
                         response = fixed_response
@@ -674,67 +652,81 @@ def main():
                     
                     print("=== RESPONSE ===")
                     print(response)
-                    print("================")
-
-                    # Display result - Header section
-                    team_html = f'''<p style='
-                                        color: #64748b; 
-                                        margin-bottom: 24px; 
-                                        font-size: 1.2rem;
-                                        font-weight: bold;
-                                    '>
-                                        <strong>🏢 Nhóm:</strong> {user_data['team']}
-                                    </p>''' if user_data.get('team') else "Khách mời"  
-                    
-                    st.markdown(f"""
-                        <div class='result-container' style='
-                            background: white; 
-                            border-radius: 24px; 
-                            padding: 32px; 
-                            box-shadow: 0 8px 32px rgba(34, 211, 238, 0.3); 
-                            margin: 32px auto; 
-                            max-width: 800px;'>
-                            <h2 style='
-                                font-size: 2rem; 
-                                color: #f59e0b; 
-                                margin-bottom: 16px; 
-                                border-bottom: 2px solid #fde047; 
-                                padding-bottom: 16px; 
-                                font-weight: bold;'>
-                                ✨ {user_data.get('name', 'Bạn')}
-                            </h2>
-                            {team_html}
-                            <h3 style='
-                                font-size: 1.5rem; 
-                                color: #f59e0b; 
-                                margin-bottom: 16px;'>
-                                🔮 Lời bói của bạn:
-                            </h3>
-                            <div style='    
-                                background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%); 
-                                padding: 24px; 
-                                border-radius: 16px; 
-                                border: 2px solid #fde047;'>
-                                <p style='
-                                    color: #1f2937; 
-                                    font-size: 1.1rem; 
-                                    line-height: 1.8; 
-                                    margin: 0;'>{response}</p>
-                            </div>
-                        </div>
-                    """, unsafe_allow_html=True)
                     print("Total time in ms:", (time.time() - start_time) * 1000)
                     
-                    # Stop loading animation and clear pending values
+                    # Save result to session state
+                    st.session_state.last_result = {
+                        'user_data': user_data,
+                        'response': response
+                    }
+                    st.session_state.result_showing = True
                     st.session_state.is_loading = False
-                    st.session_state.pending_user_id = None
-                    st.session_state.pending_fortune_number = None
-                    
-                    if st.button("🔄 Fortune-tell for someone else"):
-                        st.rerun()
+                    st.rerun()  # Rerun to show result with correct button state
     
-    elif submit:
+    elif submit and not user_id:
         st.warning("⚠️ Please enter your Employee ID or Full Name!")
+    
+    # Display result from session state (OUTSIDE processing block)
+    if st.session_state.result_showing and st.session_state.get('last_result'):
+        result_data = st.session_state.last_result
+        user_data = result_data['user_data']
+        response = result_data['response']
+        
+        team_html = f'''<p style='
+                            color: #64748b; 
+                            margin-bottom: 24px; 
+                            font-size: 1.2rem;
+                            font-weight: bold;
+                        '>
+                            <strong>🏢 Nhóm:</strong> {user_data['team']}
+                        </p>''' if user_data.get('team') else "Khách mời"  
+        
+        st.markdown(f"""
+            <div class='result-container' style='
+                background: white; 
+                border-radius: 24px; 
+                padding: 32px; 
+                box-shadow: 0 8px 32px rgba(34, 211, 238, 0.3); 
+                margin: 32px auto; 
+                max-width: 800px;'>
+                <h2 style='
+                    font-size: 2rem; 
+                    color: #f59e0b; 
+                    margin-bottom: 16px; 
+                    border-bottom: 2px solid #fde047; 
+                    padding-bottom: 16px; 
+                    font-weight: bold;'>
+                    ✨ {user_data.get('name', 'Bạn')}
+                </h2>
+                {team_html}
+                <h3 style='
+                    font-size: 1.5rem; 
+                    color: #f59e0b; 
+                    margin-bottom: 16px;'>
+                    🔮 Lời bói của bạn:
+                </h3>
+                <div style='    
+                    background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%); 
+                    padding: 24px; 
+                    border-radius: 16px; 
+                    border: 2px solid #fde047;'>
+                    <p style='
+                        color: #1f2937; 
+                        font-size: 1.1rem; 
+                        line-height: 1.8; 
+                        margin: 0;'>{response}</p>
+                </div>
+            </div>
+        """, unsafe_allow_html=True)
+        
+        # Show info message about disabled button
+        # st.info("💡 Bấm nút bên dưới để bói cho người khác!")
+        
+        if st.button("🔄 Fortune-tell for someone else"):
+            st.session_state.result_showing = False
+            st.session_state.last_result = None
+            st.session_state.is_loading = False
+            st.rerun()
     
     # Footer
     st.markdown("""
